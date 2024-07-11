@@ -1,6 +1,5 @@
 import UserModel from "../models/user.js"
 import { validationResult } from "express-validator";
-import bcrypt from 'bcrypt'
 import jwt from 'jsonwebtoken';
 import nodemailer from 'nodemailer';
 
@@ -16,6 +15,8 @@ export const register = async (req, res) => {
      const doc = new UserModel({
          email: req.body.email,
          fullname: req.body.fullname,
+         surname: req.body.surname,
+         patronymic: req.body.patronymic,
          password: req.body.password,
      });
      if(!req.body.email || !req.body.password){
@@ -103,7 +104,6 @@ export const login = async (req, res) => {
                 expiresIn: '30d',
             }
             );
-
             res.json({
                 ...user._doc,
                 token
@@ -118,7 +118,7 @@ export const login = async (req, res) => {
 
 export const getMe = async (req, res) => {
     try{
-        const user = await UserModel.findById(req._id)
+        const user = await UserModel.findById(req.userId)
 
         if (!user){
             return res.status(404).json({
@@ -127,9 +127,10 @@ export const getMe = async (req, res) => {
         }
         
 
-        const {...userData} = user._doc;
 
-        res.json(userData)
+        res.json({
+            ...user._doc
+        })
     } 
     catch(err){
         console.log(err)
@@ -138,3 +139,27 @@ export const getMe = async (req, res) => {
         });
     }
 };
+export const getUsers = async (req, res) => {
+    try {
+        const user = await UserModel.find()
+
+
+        if (!user){
+            return res.status(404).json({
+                message: "Пользователь не найден"
+            });
+        }
+        
+
+
+        res.json({
+            ...user
+        })
+        
+    } catch (error) {
+        console.log(err)
+        return res.status(511).json({
+            message: "нет доступа"
+        });
+    }
+}
