@@ -1,0 +1,63 @@
+{
+  "name": "@hugeicons/react-native-pro",
+  "version": "0.1.7",
+  "description": "Hugeicons Pro React Native Component Library https://hugeicons.com",
+  "homepage": "https://hugeicons.com",
+  "main": "dist/esm/hugeicons-react-native.js",
+  "module": "dist/esm/hugeicons-react-native.js",
+  "typings": "dist/hugeicons-pro-react-native.d.ts",
+  "sideEffects": false,
+  "files": [
+    "dist"
+  ],
+  "author": "HugeIcons",
+  "scripts": {
+    "build": "pnpm clean && pnpm typecheck && pnpm build:bundles",
+    "build:bundles": "node --max-old-space-size=18192 node_modules/.bin/rollup -c ./rollup.config.mjs",
+    "typecheck": "tsc",
+    "clean": "rm -rf dist"
+  },
+  "devDependencies": {
+    "@atomico/rollup-plugin-sizes": "^1.1.4",
+    "@rollup/plugin-replace": "^5.0.5",
+    "@types/node": "^16.18.80",
+    "@types/react": "^18.0.12",
+    "cheerio": "^1.0.0-rc.12",
+    "esbuild": "^0.20.1",
+    "html-minifier": "^4.0.0",
+    "lodash": "^4.17.21",
+    "prettier": "^3.2.5",
+    "react": "^16.4.2",
+    "react-dom": "^16.4.2",
+    "rollup": "^4.12.0",
+    "rollup-plugin-dts": "^6.1.0",
+    "rollup-plugin-esbuild": "^6.1.1",
+    "rollup-plugin-license": "^3.2.0",
+    "rollup-plugin-visualizer": "^5.12.0",
+    "svgo": "^3.2.0",
+    "svgson": "^5.3.1",
+    "typescript": "^4.9.5"
+  },
+  "peerDependencies": {
+    "react": ">=16.0.0",
+    "react-native": ">=0.63.0",
+    "react-native-svg": ">=13.14.0"
+  },
+  "keywords": [
+    "icons",
+    "react-icons",
+    "ui-components",
+    "design-system",
+    "vector-icons",
+    "react-component-library",
+    "web-icons",
+    "scalable-icons",
+    "customizable-icons",
+    "icon-library",
+    "react-native-icons"
+  ],
+  "dependencies": {
+    "js-base64": "^3.7.7",
+    "js-md5": "^0.8.3"
+  }
+}

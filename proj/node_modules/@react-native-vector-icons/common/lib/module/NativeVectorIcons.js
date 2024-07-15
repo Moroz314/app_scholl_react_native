@@ -1,0 +1,3 @@
+import { TurboModuleRegistry } from 'react-native';
+export default TurboModuleRegistry.getEnforcing('VectorIcons');
+//# sourceMappingURL=NativeVectorIcons.js.map

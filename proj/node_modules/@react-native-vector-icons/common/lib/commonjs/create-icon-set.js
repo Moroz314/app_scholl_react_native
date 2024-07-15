@@ -1,0 +1,138 @@
+"use strict";
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+exports.createIconSet = exports.DEFAULT_ICON_SIZE = exports.DEFAULT_ICON_COLOR = void 0;
+var _react = _interopRequireWildcard(require("react"));
+var _reactNative = require("react-native");
+var _NativeVectorIcons = _interopRequireDefault(require("./NativeVectorIcons"));
+var _createIconSourceCache = _interopRequireDefault(require("./create-icon-source-cache"));
+var _ensureNativeModuleAvailable = _interopRequireDefault(require("./ensure-native-module-available"));
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+function _getRequireWildcardCache(e) { if ("function" != typeof WeakMap) return null; var r = new WeakMap(), t = new WeakMap(); return (_getRequireWildcardCache = function (e) { return e ? t : r; })(e); }
+function _interopRequireWildcard(e, r) { if (!r && e && e.__esModule) return e; if (null === e || "object" != typeof e && "function" != typeof e) return { default: e }; var t = _getRequireWildcardCache(r); if (t && t.has(e)) return t.get(e); var n = { __proto__: null }, a = Object.defineProperty && Object.getOwnPropertyDescriptor; for (var u in e) if ("default" !== u && {}.hasOwnProperty.call(e, u)) { var i = a ? Object.getOwnPropertyDescriptor(e, u) : null; i && (i.get || i.set) ? Object.defineProperty(n, u, i) : n[u] = e[u]; } return n.default = e, t && t.set(e, n), n; }
+function _extends() { _extends = Object.assign ? Object.assign.bind() : function (target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i]; for (var key in source) { if (Object.prototype.hasOwnProperty.call(source, key)) { target[key] = source[key]; } } } return target; }; return _extends.apply(this, arguments); }
+const DEFAULT_ICON_SIZE = exports.DEFAULT_ICON_SIZE = 12;
+const DEFAULT_ICON_COLOR = exports.DEFAULT_ICON_COLOR = 'black';
+const createIconSet = (glyphMap, fontFamily, fontFile, fontStyle) => {
+  // Android doesn't care about actual fontFamily name, it will only look in fonts folder.
+  const fontBasename = fontFile ? fontFile.replace(/\.(otf|ttf)$/, '') : fontFamily;
+  const fontReference = _reactNative.Platform.select({
+    windows: `/Assets/${fontFile}#${fontFamily}`,
+    android: fontBasename,
+    web: fontBasename,
+    default: fontFamily
+  });
+  const resolveGlyph = name => {
+    const glyph = glyphMap[name] || '?';
+    if (typeof glyph === 'number') {
+      return String.fromCodePoint(glyph);
+    }
+    return glyph;
+  };
+  const Icon = ({
+    name,
+    size = DEFAULT_ICON_SIZE,
+    color,
+    style,
+    children,
+    allowFontScaling = false,
+    innerRef,
+    ...props
+  }) => {
+    const glyph = name ? resolveGlyph(name) : '';
+    const styleDefaults = {
+      fontSize: size,
+      color
+    };
+    const styleOverrides = {
+      fontFamily: fontReference,
+      fontWeight: 'normal',
+      fontStyle: 'normal'
+    };
+    const newProps = {
+      ...props,
+      style: [styleDefaults, style, styleOverrides, fontStyle || {}],
+      allowFontScaling
+    };
+    return /*#__PURE__*/_react.default.createElement(_reactNative.Text, _extends({
+      ref: innerRef,
+      selectable: false
+    }, newProps), glyph, children);
+  };
+  const WrappedIcon = /*#__PURE__*/(0, _react.forwardRef)((props, ref) => /*#__PURE__*/_react.default.createElement(Icon, _extends({
+    innerRef: ref
+  }, props)));
+  WrappedIcon.displayName = 'Icon';
+  const imageSourceCache = (0, _createIconSourceCache.default)();
+  const getImageSourceSync = (name, size = DEFAULT_ICON_SIZE, color = DEFAULT_ICON_COLOR) => {
+    (0, _ensureNativeModuleAvailable.default)();
+    const glyph = resolveGlyph(name);
+    const processedColor = (0, _reactNative.processColor)(color);
+    const cacheKey = `${glyph}:${size}:${String(processedColor)}`;
+    if (imageSourceCache.has(cacheKey)) {
+      // FIXME: Should this check if it's an error and throw it again?
+      return imageSourceCache.get(cacheKey);
+    }
+    try {
+      const imagePath = _NativeVectorIcons.default.getImageForFontSync(fontReference, glyph, size, processedColor // FIXME what if a non existant colour was passed in?
+      );
+      const value = {
+        uri: imagePath,
+        scale: _reactNative.PixelRatio.get()
+      };
+      imageSourceCache.setValue(cacheKey, value);
+      return value;
+    } catch (error) {
+      imageSourceCache.setError(cacheKey, error);
+      throw error;
+    }
+  };
+  const getImageSource = async (name, size = DEFAULT_ICON_SIZE, color = DEFAULT_ICON_COLOR) => {
+    (0, _ensureNativeModuleAvailable.default)();
+    const glyph = resolveGlyph(name);
+    const processedColor = (0, _reactNative.processColor)(color);
+    const cacheKey = `${glyph}:${size}:${String(processedColor)}`;
+    if (imageSourceCache.has(cacheKey)) {
+      // FIXME: Should this check if it's an error and throw it again?
+      return imageSourceCache.get(cacheKey);
+    }
+    try {
+      const imagePath = await _NativeVectorIcons.default.getImageForFont(fontReference, glyph, size, processedColor // FIXME what if a non existant colour was passed in?
+      );
+      const value = {
+        uri: imagePath,
+        scale: _reactNative.PixelRatio.get()
+      };
+      imageSourceCache.setValue(cacheKey, value);
+      return value;
+    } catch (error) {
+      imageSourceCache.setError(cacheKey, error);
+      throw error;
+    }
+  };
+  const loadFont = async () => {
+    if (_reactNative.Platform.OS !== 'ios') {
+      return;
+    }
+    (0, _ensureNativeModuleAvailable.default)();
+    const [filename, extension] = fontFile.split('.'); // FIXME: what if filename has two dots?
+    if (!filename) {
+      // NOTE: Thie is impossible but TypeScript doesn't know that
+      throw new Error('Font needs a filename.');
+    }
+    if (!extension) {
+      throw new Error('Font needs a filename extensison.');
+    }
+    await _NativeVectorIcons.default.loadFontWithFileName(filename, extension, 'react-native-vector-icons');
+  };
+  loadFont();
+  const IconNamespace = Object.assign(WrappedIcon, {
+    getImageSource,
+    getImageSourceSync
+  });
+  return IconNamespace;
+};
+exports.createIconSet = createIconSet;
+//# sourceMappingURL=create-icon-set.js.map

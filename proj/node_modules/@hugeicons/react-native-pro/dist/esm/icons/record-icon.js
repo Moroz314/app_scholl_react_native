@@ -1,0 +1,7 @@
+/**
+ * @license @hugeicons/react-native-pro v0.1.7
+ *
+ * See the LICENSE file in the root directory of this source tree.
+ */
+
+import r from"../create-hugeicon-component.js";const o=r("RecordIcon",{"bulk.rounded":[["path",{opacity:"0.4",d:"M3.25 12C3.25 7.16751 7.16751 3.25 12 3.25C16.8325 3.25 20.75 7.16751 20.75 12C20.75 16.8325 16.8325 20.75 12 20.75C7.16751 20.75 3.25 16.8325 3.25 12Z",fill:"currentColor",key:"k0"}],["path",{d:"M18.1869 5.8125C21.604 9.22959 21.604 14.7698 18.1869 18.1869C14.7698 21.604 9.22959 21.604 5.8125 18.1869L18.1869 5.8125Z",fill:"currentColor",key:"k1"}]],"duotone.rounded":[["circle",{opacity:"0.4",cx:"12",cy:"12",r:"8",fill:"currentColor",key:"k0"}],["circle",{cx:"12",cy:"12",r:"8",stroke:"currentColor",key:"k1"}]],"solid.rounded":[["path",{d:"M3.25 12C3.25 7.16751 7.16751 3.25 12 3.25C16.8325 3.25 20.75 7.16751 20.75 12C20.75 16.8325 16.8325 20.75 12 20.75C7.16751 20.75 3.25 16.8325 3.25 12Z",fill:"currentColor",key:"k0"}]],"solid.sharp":[["path",{d:"M3.25 12C3.25 7.16751 7.16751 3.25 12 3.25C16.8325 3.25 20.75 7.16751 20.75 12C20.75 16.8325 16.8325 20.75 12 20.75C7.16751 20.75 3.25 16.8325 3.25 12Z",fill:"currentColor",key:"k0"}]],"stroke.rounded":[["circle",{cx:"12",cy:"12",r:"8",stroke:"currentColor",key:"k0"}]],"stroke.sharp":[["circle",{cx:"12",cy:"12",r:"8",stroke:"currentColor",key:"k0"}]],"twotone.rounded":[["circle",{opacity:"0.4",cx:"12",cy:"12",r:"8",stroke:"currentColor",key:"k0"}],["path",{d:"M12 20C7.58172 20 4 16.4183 4 12C4 7.58172 7.58172 4 12 4",stroke:"currentColor",key:"k1"}]]});export{o as default};

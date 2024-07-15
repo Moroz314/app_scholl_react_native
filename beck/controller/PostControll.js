@@ -22,7 +22,7 @@ export const getOne = async (req, res) => {
         {
             returnDocument: 'after'
         }
-    )
+    ).populate('user').exec()
     res.json(post)
     }   
     catch (err){

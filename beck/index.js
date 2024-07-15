@@ -10,6 +10,7 @@ import { loginValidation, postCreateValidation, registerValidation } from './val
 import checkAuth from './utils/checkAuth.js'
 import * as UserControll from './controller/UserControll.js'
 import * as PostControll from './controller/PostControll.js'
+import * as CommentControll from './controller/CommentControll.js'
 import nodemailer from 'nodemailer';
 import multer from 'multer'
 
@@ -51,9 +52,11 @@ app.get('/posts/:id', PostControll.getOne);
 app.post('/posts',checkAuth ,postCreateValidation, PostControll.create);
 app.delete('/posts/:id',checkAuth , PostControll.remove);
 app.put('/posts/:id',checkAuth ,  PostControll.update);
-
 app.post('/posts/tag', PostControll.getPosts);
 
+
+app.post('/comment',checkAuth , CommentControll.create);
+app.get('/comment/:post_id', CommentControll.getComments);
 const PORT = 3030;
 
 app.listen(PORT, (err) => {
