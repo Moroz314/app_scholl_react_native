@@ -1,7 +1,7 @@
 import React, { Component, useEffect, useState } from 'react'
 import { Text, StyleSheet, View ,ScrollView,Image, Button,TextInput,TouchableOpacity,Alert, Modal} from 'react-native'
 import { useNavigation } from '@react-navigation/native';
-import axios from 'axios';
+import axios from "../../../axios/axios"
 import { useDispatch, useSelector } from 'react-redux';
 import { fetchPostsList, selectIsPost } from '../../../slices/post_list';
 import { fetchDeletePosts, fetchPosts } from '../../../slices/post';
@@ -16,6 +16,9 @@ export default function List_Post() {
   const [setting, setSetting] = useState(false)
   const [text, setText] = useState('')
 
+
+
+
   const dispatch = useDispatch()
 
   const navigatioin = useNavigation()
@@ -24,7 +27,21 @@ export default function List_Post() {
 
   const  items = post.items
   
-
+  async function createComment() {
+    const comment = {
+      text: text,
+      postId: items._id
+    }
+    console.log(items._id)
+    await axios.post("/comment", comment).then((res) => {
+      console.log(res.data)
+    })
+    .catch(e => {
+      Alert.alert(`${e}`)
+      console.log(e)
+    })
+    dispatch(fetchCommentsList(items._id));
+}
 
     async function getPosts() {
       const less = await AsyncStorage.getItem('less')
@@ -47,31 +64,15 @@ export default function List_Post() {
 
  
 
-  const comments_get = useSelector(selectIsComment)
-  const comments = comments_get.items 
-
-  if(comments_get.items == undefined) {
-    comments = []
-  }
-
-  const CommentsStatus = comments_get.status == 'loading'
+  const comments_get = useSelector(selectIsComment);
+  const comments = comments_get.items || [];
+  
+  const CommentsStatus = comments_get.status === 'loading';
     
-  async function createComment() {
-      const comment = {
-        text: text,
-        postId: items._id
-      }
-      console.log(items._id)
-      await dispatch(fetchCreateCommentsList(comment))
-      navigatioin.navigate('Форум')
-      if(comments_get.items == undefined) {
-        comments = []
-      }
-  }
- 
+
   const ComentList = CommentsStatus ? (
     <View>
-    <View key={0} style={styles.comment}>
+      <View key={0} style={styles.comment}>
         <View style={styles.commentHeader}>
           <View>
             <Text style={styles.commentUsername}></Text>
@@ -117,7 +118,7 @@ export default function List_Post() {
           <View style={styles.modalContent}>
             <Text style={styles.modalTitle}>Настройки поста</Text>
             <View styel={styles.modalButtonContainer}>
-            <TouchableOpacity
+              <TouchableOpacity
                 onPress={() => delete_post()}
               >
                 <DeletePost style={styles.btn_setting_post} name={'delete'}/>
@@ -125,7 +126,7 @@ export default function List_Post() {
               <TouchableOpacity
                 onPress={() => Alert.alert('Кнопка нажата!')}
               >
-               <Сorrect style={styles.btn_setting_post} name={'edit-3'} />
+                <Сorrect style={styles.btn_setting_post} name={'edit-3'} />
               </TouchableOpacity>
               </View>
             <View style={styles.modalButtonContainer}>

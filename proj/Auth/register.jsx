@@ -25,7 +25,7 @@ function HandlerSubmit() {
     }
     //192.168.3.8 дача
     //192.168.0.104 дом
-    axios.post("http://192.168.0.104:3030/auth/register", userData)
+    axios.post("http://192.168.3.8:3030/auth/register", userData)
     .then((res) => {
       navigatioin.navigate("Авторизация")
       Alert.alert('Вы зарегистрированы!')

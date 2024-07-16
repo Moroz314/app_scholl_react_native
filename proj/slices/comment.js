@@ -9,20 +9,14 @@ export const fetchCommentsList = createAsyncThunk('post/fetchComment', async (pa
 
 
 const initialState = {
-        items: [],
-        status: 'loading'
-
+    items: [],
+    status: 'loading'
 }
 
 
 const postSlice = createSlice({
     name: 'comment',
     initialState,
-    reducers: {
-        logout: (state) => {
-            state.items = null
-        }
-    },
     extraReducers: (builder) => {
         //вывод комментариев
         builder.addCase(fetchCommentsList.pending, (state) => {
@@ -37,8 +31,6 @@ const postSlice = createSlice({
             state.items = [],
             state.status = 'error'
         })
-    
-       
     }    
     
 })

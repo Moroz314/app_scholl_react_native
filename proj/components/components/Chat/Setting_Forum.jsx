@@ -89,8 +89,10 @@ export function Setting_Forum () {
       <View>
            <ScrollView>
         <Button onPress={GoHome}
-  title="НАСТРОИТЬ" />
+         style={styles.btn_box}
+  title="найти" />
   <Button onPress={pressAll}
+  style={styles.btn_box}
   title="нажать все" />
          <BouncyCheckbox
          style={styles.checkbox}

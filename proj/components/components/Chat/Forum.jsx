@@ -44,10 +44,9 @@ useEffect(() => {
     navigatioin.navigate("Настройка форума")
   }
 
-   async function list_post(post) {
-    await dispath(fetchPostsList(post._id));
+    async function list_post(post) {
+     await dispath(fetchPostsList(post._id));
     navigatioin.navigate("Страница поста")
-    await dispath(fetchCommentsList(post._id))
   }
 
   const mappedList = PostStatus ? (
@@ -70,7 +69,6 @@ useEffect(() => {
       <TouchableOpacity key={index} onPress={() => list_post(post)}>
       <View style={styles.cart_forum}>
         <Text style={styles.title}>{post.title}</Text>
-        <Text style={styles.text}>{post.text}</Text>
         <Text>Тема: {post.tags}</Text>
         <Text>Автор вопроса: {post.user.fullname} {post.user.surname}</Text>
       </View>
