@@ -11,12 +11,15 @@ import { fetchCreateCommentsList } from '../../../slices/creat_comment';
 import DeletePost from 'react-native-vector-icons/AntDesign';
 import SettingPost from 'react-native-vector-icons/Feather';
 import Сorrect from 'react-native-vector-icons/Feather';
+import { selectIsData } from '../../../slices/auth';
 
 export default function List_Post() {
   const [setting, setSetting] = useState(false)
   const [text, setText] = useState('')
 
+  const data = useSelector(selectIsData)
 
+  const [me, setMe] = useState(false)
 
 
   const dispatch = useDispatch()
@@ -26,6 +29,15 @@ export default function List_Post() {
   const post = useSelector(selectIsPost)
 
   const  items = post.items
+
+  
+  useEffect(() => {
+    if (data._id && items.user && data._id === items.user._id) {
+      setMe(true);
+    } else {
+      setMe(false);
+    }
+  }, [data._id, items.user]);
   
   async function createComment() {
     const comment = {
@@ -142,9 +154,9 @@ export default function List_Post() {
           </View>
         </View>
         </Modal>
-            <TouchableOpacity onPress={() => setSetting(true)}>
+            {me && <TouchableOpacity onPress={() => setSetting(true)}>
             <SettingPost style={styles.btn_post} name={'settings'} /> 
-    </TouchableOpacity>
+    </TouchableOpacity>}
       <View style={styles.postContainer}>
         <Text style={styles.postTitle}>{items.title}</Text>
         {items.image && <Image source={{uri: `http://192.168.3.8:3030${items.image}`}} style={{ width: '100%', height: 200 }}/>}
@@ -157,7 +169,7 @@ export default function List_Post() {
         <Text style={styles.userJoinedDate}>создан : {items.createdAt}</Text>
         <Text style={styles.userJoinedDate}>просмотров : {items.viewsCount}</Text>
           <Text style={styles.username}></Text>
-          <Text style={styles.userJoinedDate}>ученик(ца): {items.user.fullname} {items.user.surname}</Text>
+          <Text style={styles.userJoinedDate}>ученик(ца): {items.user.fullname} {items.user.surname} {items.user.class}</Text>
         </View>
       </View>
       <View style={styles.commentsContainer}>

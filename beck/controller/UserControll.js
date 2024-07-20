@@ -17,6 +17,7 @@ export const register = async (req, res) => {
          fullname: req.body.fullname,
          surname: req.body.surname,
          patronymic: req.body.patronymic,
+         class: req.body.class,
          password: req.body.password,
      });
      if(!req.body.email || !req.body.password){

@@ -67,11 +67,11 @@ useEffect(() => {
   ) : (
     posts.map((post, index) => (
       <TouchableOpacity key={index} onPress={() => list_post(post)}>
-      <View style={styles.cart_forum}>
-      {post.image && <Image source={{uri: `http://192.168.3.8:3030${post.image}`}} style={{ width: '100%', height: 200 }}/>}
+      <View style={styles.post}>
+      {post.image && <Image style={styles.image} source={{uri: `http://192.168.3.8:3030${post.image}`}} />}
         <Text style={styles.title}>{post.title}</Text>
-        <Text>Тема: {post.tags}</Text>
-        <Text>Автор вопроса: {post.user.fullname} {post.user.surname}</Text>
+        <Text style={styles.tags}>Тема: {post.tags}</Text>
+        <Text style={styles.author}>Автор вопроса: {post.user.fullname} {post.user.surname} {post.user.class}</Text>
       </View>
     </TouchableOpacity>
     ))
@@ -81,7 +81,7 @@ useEffect(() => {
   return (
       
       <View style={styles.formContainer}>
-   <ScrollView  >
+   <ScrollView>
     <View>
       <View style={styles.cart_setting_posts}>
       <View style={styles.container}>
@@ -154,6 +154,7 @@ const styles = StyleSheet.create({
     height: 50,
     backgroundColor: '#fff',
     marginTop: 10,
+    marginBottom: 5,
     marginHorizontal: 10,
     borderRadius: 10,
     shadowColor: '#000',
@@ -162,28 +163,45 @@ const styles = StyleSheet.create({
     shadowRadius: 3.84,
     elevation: 5,
   },
-  cart_forum: {
-    backgroundColor: '#fff',
-    marginTop: 10,
-    marginHorizontal: 10,
-    borderRadius: 10,
-    shadowColor: '#000',
-    shadowOffset: { width: 0, height: 2 },
-    shadowOpacity: 0.25,
-    shadowRadius: 3.84,
-    elevation: 5,
+  containerr: {
+    flex: 1,
+    alignItems: 'center',
+    justifyContent: 'center',
+    padding: 20,
+  },
+  post: {
+     backgroundColor: '#fff',
+    borderColor: '#ddd',
+    borderWidth: 1,
+    borderRadius: 11,
+    marginBottom: 5,
+    marginTop: 5,
+    padding: 20,
+    width: '100%',
+  },
+  image: {
+    borderRadius: 2,
+    height: 200,
+    marginBottom: 20,
+    width: '100%',
   },
   title: {
-    marginLeft: 5,
-    fontSize: 20,
+    fontSize: 18,
     fontWeight: 'bold',
-    marginVertical: 10,
+    marginBottom: 10,
   },
   text: {
-    marginLeft: 5,
-    maxWidth: 300,
     fontSize: 16,
-    marginVertical: 5,
+    marginBottom: 10,
+  },
+  tags: {
+    color: '#888',
+    fontSize: 14,
+    marginBottom: 10,
+  },
+  author: {
+    fontSize: 14,
+    fontStyle: 'italic',
   },
   input: {
     fontSize: 16,

@@ -1,7 +1,7 @@
 import { StatusBar } from 'expo-status-bar';
 import React, {useState} from 'react';
 import { StyleSheet, Text, View , TextInput, Button, TouchableOpacity, Alert} from 'react-native';
-
+import { Picker } from '@react-native-picker/picker';
 import axios from "axios"
 import { useNavigation } from '@react-navigation/native';
 
@@ -12,6 +12,8 @@ export default function Regis() {
     const [fullname, setName] = useState('')
     const [surname, setSurname] = useState('')
     const [patronymic, setPatronymic] = useState('')
+    const [numclass, setNumClass] = useState('')
+    const [bukvclass, setBukvClass] = useState('')
     const [email, setMail] = useState('')
     const [password, setPassword] = useState('')
     const navigatioin = useNavigation()
@@ -20,6 +22,7 @@ function HandlerSubmit() {
         fullname: fullname,
         surname: surname,
         patronymic: patronymic,
+        class: `${numclass} ${bukvclass}`,
         email: email,
         password: password
     }
@@ -63,6 +66,31 @@ function Auth() {
       value={patronymic}
       onChangeText={setPatronymic}
     />
+     <Text>Класс (цифра):</Text>
+      <Picker
+        selectedValue={numclass}
+        style={styles.input}
+        onValueChange={(itemValue) => setNumClass(itemValue)}
+      >
+        <Picker.Item label="6" value="6" />
+        <Picker.Item label="7" value="7" />
+        <Picker.Item label="8" value="8" />
+        <Picker.Item label="9" value="9" />
+        <Picker.Item label="10" value="10" />
+        <Picker.Item label="11" value="11" />
+      </Picker>
+      <Text>Класс (буква):</Text>
+      <Picker
+        selectedValue={bukvclass}
+        style={styles.input}
+        onValueChange={(itemValue) => setBukvClass(itemValue)}
+      >
+        <Picker.Item label="А" value="А" />
+        <Picker.Item label="Б" value="Б" />
+        <Picker.Item label="В" value="В" />
+        <Picker.Item label="Г" value="Г" />
+        <Picker.Item label="Д" value="Д" />
+      </Picker>
     <TextInput
      style={styles.input}
       placeholder="Email"

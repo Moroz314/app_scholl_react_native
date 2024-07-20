@@ -118,7 +118,7 @@ export const getPosts = async (req, res) => {
         if (tag.length === 0) {
             return res.status(400).json({ message: 'No tags provided' });
         }
-        const posts = await PostModel.find({ tags: { $in: tag } }).populate('user').exec();
+        const posts = await PostModel.find({ tags: { $in: tag } }).sort({ createdAt: -1 }).populate('user').exec();
 
         res.json(posts)
     }   

@@ -90,7 +90,7 @@ export function Setting_Forum () {
            <ScrollView>
         <Button onPress={GoHome}
          style={styles.btn_box}
-  title="найти" />
+  title="сохронить" />
   <Button onPress={pressAll}
   style={styles.btn_box}
   title="нажать все" />

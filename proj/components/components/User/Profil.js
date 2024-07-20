@@ -32,6 +32,8 @@ export default function  Profil() {
       <View>
         <Text>ФИО:</Text>
         <Text style={styles.H1_auth}>{data.surname} {data.fullname} {data.patronymic}</Text>
+        <Text>Класс:</Text>
+        <Text style={styles.H1_auth}>{data.class}</Text>
       </View>
      <TouchableOpacity onPress={() => OutAuth()} >
        <View style={styles.button}><Text style={styles.btn_text}>Выйти</Text></View>
