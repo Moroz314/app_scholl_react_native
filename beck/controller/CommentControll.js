@@ -32,3 +32,20 @@ export const getComments = async (req, res) => {
         console.log(err)
    }
 }
+
+export const remove = async (req, res) => {
+    try {
+        const postId = req.params.post_id;
+        const post = await CommentModel.deleteMany({postId: postId}
+    )
+    res.json({
+        sucses: true
+    })
+    }   
+    catch (err){
+        res.status(500).json({
+            message: 'неудалось удалить комментарии'
+        });
+        console.log(err)
+   }
+}

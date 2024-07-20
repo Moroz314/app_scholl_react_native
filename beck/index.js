@@ -57,6 +57,8 @@ app.post('/posts/tag', PostControll.getPosts);
 
 app.post('/comment',checkAuth , CommentControll.create);
 app.get('/comment/:post_id', CommentControll.getComments);
+app.delete('/comment/:post_id', CommentControll.remove);
+
 const PORT = 3030;
 
 app.listen(PORT, (err) => {

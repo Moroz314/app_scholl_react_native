@@ -1,6 +1,6 @@
 import { StatusBar } from 'expo-status-bar';
 import React, {useEffect, useState} from 'react';
-import { StyleSheet, Text, View , TextInput, Button, TouchableOpacity,ScrollView} from 'react-native';
+import { StyleSheet, Text, View , TextInput, Button, TouchableOpacity,ScrollView,Image} from 'react-native';
 import { useDispatch, useSelector } from 'react-redux';
 import { selectIsAuth } from '../../../slices/auth';
 import { createDrawerNavigator } from '@react-navigation/drawer';
@@ -68,6 +68,7 @@ useEffect(() => {
     posts.map((post, index) => (
       <TouchableOpacity key={index} onPress={() => list_post(post)}>
       <View style={styles.cart_forum}>
+      {post.image && <Image source={{uri: `http://192.168.3.8:3030${post.image}`}} style={{ width: '100%', height: 200 }}/>}
         <Text style={styles.title}>{post.title}</Text>
         <Text>Тема: {post.tags}</Text>
         <Text>Автор вопроса: {post.user.fullname} {post.user.surname}</Text>

@@ -22,7 +22,10 @@ const Post_Schema = new mongoose.Schema({
         ref: 'User',
         required: true
     },
-    imageUrl: String,
+    image: {
+        type: String,
+        required: false,
+    },
     },
     {
         timestamps: true,

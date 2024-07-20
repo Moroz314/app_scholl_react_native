@@ -6,6 +6,12 @@ export const fetchCommentsList = createAsyncThunk('post/fetchComment', async (pa
         return data;
 })
 
+export const fetchDeleteCommentsList = createAsyncThunk('post/fetchDeleteComment', async (params) => {  
+    await axios.delete(`/comment/${params}`)
+
+})
+
+ 
 
 
 const initialState = {

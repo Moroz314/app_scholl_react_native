@@ -6,7 +6,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import { fetchPostsList, selectIsPost } from '../../../slices/post_list';
 import { fetchDeletePosts, fetchPosts } from '../../../slices/post';
 import AsyncStorage from '@react-native-async-storage/async-storage';
-import { fetchCommentsList, fetchCreateComment, selectIsComment, selectIsCommentStatus } from '../../../slices/comment';
+import { fetchCommentsList, fetchCreateComment, fetchDeleteCommentsList, selectIsComment, selectIsCommentStatus } from '../../../slices/comment';
 import { fetchCreateCommentsList } from '../../../slices/creat_comment';
 import DeletePost from 'react-native-vector-icons/AntDesign';
 import SettingPost from 'react-native-vector-icons/Feather';
@@ -41,6 +41,7 @@ export default function List_Post() {
       console.log(e)
     })
     dispatch(fetchCommentsList(items._id));
+    setText('')
 }
 
     async function getPosts() {
@@ -50,6 +51,7 @@ export default function List_Post() {
     }
   async function delete_post() {
     dispatch(fetchDeletePosts(items._id))
+    dispatch(fetchDeleteCommentsList(items._id))
     getPosts()
     navigatioin.navigate("Форум")
 
@@ -145,6 +147,7 @@ export default function List_Post() {
     </TouchableOpacity>
       <View style={styles.postContainer}>
         <Text style={styles.postTitle}>{items.title}</Text>
+        {items.image && <Image source={{uri: `http://192.168.3.8:3030${items.image}`}} style={{ width: '100%', height: 200 }}/>}
         <Text style={styles.postContent}>{items.text}</Text>
         <Text style={styles.postContent}>тема: {items.tags}</Text>
       </View>
