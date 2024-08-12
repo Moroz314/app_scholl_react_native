@@ -54,7 +54,12 @@ export default function Menu() {
     }, [])
 
     return (
-        <Drawer.Navigator initialRouteName="Feed">
+        <Drawer.Navigator screenOptions={{
+            drawerStyle: {
+                backgroundColor: '#D2691E',
+                width: 240,
+            },
+        }}  initialRouteName="Feed">
               <Drawer.Screen
                 name="Профиль"
                 component={Profil}
@@ -89,6 +94,9 @@ export default function Menu() {
     );
 }
 const styles = StyleSheet.create({
+    screen: {
+         color: '#D2691E'
+    },
     btn_new_post: {
         marginRight: 28,
 

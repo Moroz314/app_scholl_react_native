@@ -51,7 +51,6 @@ export function Setting_Forum () {
   async function getPosts() {
     const less = await AsyncStorage.getItem('less')
     const jsonLess = await JSON.parse(less);
-    const data =  await dispath(fetchPosts(jsonLess));
   }
 
 
@@ -90,7 +89,7 @@ export function Setting_Forum () {
            <ScrollView>
         <Button onPress={GoHome}
          style={styles.btn_box}
-  title="сохронить" />
+  title="сохранить" />
   <Button onPress={pressAll}
   style={styles.btn_box}
   title="нажать все" />

@@ -1,17 +1,20 @@
 import React, { Component, useEffect, useState } from 'react'
-import { Text, StyleSheet, View ,ScrollView,Image, Button,TextInput,TouchableOpacity,Alert, Modal} from 'react-native'
+import { Text, StyleSheet, View ,ScrollView,Image, Button,TextInput,TouchableOpacity,Alert, Modal, PermissionsAndroid} from 'react-native'
 import { useNavigation } from '@react-navigation/native';
 import axios from "../../../axios/axios"
 import { useDispatch, useSelector } from 'react-redux';
 import { fetchPostsList, selectIsPost } from '../../../slices/post_list';
 import { fetchDeletePosts, fetchPosts } from '../../../slices/post';
 import AsyncStorage from '@react-native-async-storage/async-storage';
+import {selectIsCommentAns} from '../../../slices/comment_ans';
+import { fetchCommentsAnsList} from '../../../slices/comment_ans';
 import { fetchCommentsList, fetchCreateComment, fetchDeleteCommentsList, selectIsComment, selectIsCommentStatus } from '../../../slices/comment';
 import { fetchCreateCommentsList } from '../../../slices/creat_comment';
 import DeletePost from 'react-native-vector-icons/AntDesign';
 import SettingPost from 'react-native-vector-icons/Feather';
 import Сorrect from 'react-native-vector-icons/Feather';
 import { selectIsData } from '../../../slices/auth';
+
 
 export default function List_Post() {
   const [setting, setSetting] = useState(false)
@@ -21,6 +24,8 @@ export default function List_Post() {
 
   const [me, setMe] = useState(false)
 
+  const [like, setLike] = useState(false)
+
 
   const dispatch = useDispatch()
 
@@ -28,7 +33,7 @@ export default function List_Post() {
 
   const post = useSelector(selectIsPost)
 
-  const  items = post.items
+  const  items = post.items || []
 
   
   useEffect(() => {
@@ -37,6 +42,8 @@ export default function List_Post() {
     } else {
       setMe(false);
     }
+ 
+   
   }, [data._id, items.user]);
   
   async function createComment() {
@@ -53,32 +60,57 @@ export default function List_Post() {
       console.log(e)
     })
     dispatch(fetchCommentsList(items._id));
+    dispatch(fetchCommentsAnsList(items._id))
     setText('')
+}
+
+async function createCommentAns(com) {
+  const comment = {
+    text: text,
+    postId: items._id,
+    commentId: com
+  }
+  console.log(items._id, com)
+  await axios.post("/comment_ans", comment).then((res) => {
+    console.log(res.data)
+  })
+  .catch(e => {
+    Alert.alert(`${e}`)
+    console.log(e)
+  })
+  dispatch(fetchCommentsList(items._id));
+  dispatch(fetchCommentsAnsList(items._id))
+  setText('')
 }
 
     async function getPosts() {
       const less = await AsyncStorage.getItem('less')
       const jsonLess = await JSON.parse(less);
       const data =  await dispatch(fetchPosts(jsonLess));
+    
     }
+
   async function delete_post() {
     dispatch(fetchDeletePosts(items._id))
     dispatch(fetchDeleteCommentsList(items._id))
     getPosts()
     navigatioin.navigate("Форум")
-
   }
 
 
   useEffect(() => {
     if (items._id) {
       dispatch(fetchCommentsList(items._id));
+      dispatch(fetchCommentsAnsList(items._id))
     }
   }, [dispatch, items._id]);
 
- 
+  const comments_ans_get = useSelector(selectIsCommentAns)
+  
+  const comments_ans_get_items = comments_ans_get.items || [];
 
   const comments_get = useSelector(selectIsComment);
+
   const comments = comments_get.items || [];
   
   const CommentsStatus = comments_get.status === 'loading';
@@ -111,16 +143,41 @@ export default function List_Post() {
         <View style={styles.commentHeader}>
           <Image source={{ uri: comment.user.avatar }} style={styles.commentUserAvatar} />
           <View>
-            <Text style={styles.commentUsername}>{comment.user.fullname} {comment.user.surname}</Text>
+            <Text style={styles.commentUsername}>{comment.user.fullname} {comment.user.surname} {comment.user.class}</Text>
             <Text style={styles.commentDate}>{comment.date}</Text>
           </View>
         </View>
         <Text style={styles.commentContent}>{comment.text}</Text>
+        <View style={styles.ans_com}>
+          <Text>Ответить:</Text>
+          <TextInput
+    style={styles.input_ans}
+      placeholder="Текст ответа..."
+      value={text}
+      onChangeText={setText}
+    />
+     <TouchableOpacity onPress={() => createCommentAns(comment._id)}  style={styles.btn_text_ans}>
+        <View>
+            <Text style={styles.btn_text}>Отправить</Text>
+        </View>
+    </TouchableOpacity>
+        
+         
+       {comments_ans_get_items.filter(
+  (comm_ans) => comm_ans.commentId === comment._id
+).map((comm_ans, index) => (
+        <View  style={styles.comment} key={index}>
+          <View><Text style={styles.commentUsername}>{comm_ans.user.fullname} {comm_ans.user.surname} {comm_ans.user.class}</Text></View>
+          <View><Text>{comm_ans.text}</Text></View>
+        </View>
+       )) }
+      </View>
       </View>
     ))
   );
  
     return (
+
       <ScrollView style={styles.container}>
         <Modal
         animationType="slide"
@@ -159,7 +216,8 @@ export default function List_Post() {
     </TouchableOpacity>}
       <View style={styles.postContainer}>
         <Text style={styles.postTitle}>{items.title}</Text>
-        {items.image && <Image source={{uri: `http://192.168.3.8:3030${items.image}`}} style={{ width: '100%', height: 200 }}/>}
+        {items.image && <Image source={{uri: `http://192.168.0.106:3030${items.image}`}} style={{ width: '100%', height: 200 }}/>}
+    
         <Text style={styles.postContent}>{items.text}</Text>
         <Text style={styles.postContent}>тема: {items.tags}</Text>
       </View>
@@ -195,7 +253,11 @@ export default function List_Post() {
   }
 
 const styles = StyleSheet.create({
+  comm_ans:{
+
+  },
   modalContainer: {
+
     flex: 1,
     justifyContent: 'center',
     alignItems: 'center',
@@ -232,7 +294,7 @@ const styles = StyleSheet.create({
     flex: 1,
     padding: 10,
     borderRadius: 5,
-    backgroundColor: '#007aff',
+    backgroundColor: '#F4A460',
     marginHorizontal: 5,
     justifyContent: 'center',
     alignItems: 'center',
@@ -248,7 +310,7 @@ const styles = StyleSheet.create({
   btn_post: {
     marginLeft: 320,
     fontSize: 26,
-
+    color: '#F4A460'
   },
   input: {
     width: 300,
@@ -264,16 +326,18 @@ const styles = StyleSheet.create({
     width: '80%',
     height: 50,
     borderRadius: 5,
-    backgroundColor: '#007aff',
+    backgroundColor: '#F4A460',
     justifyContent: 'center',
     alignItems: 'center'
   },
   container: {
+    backgroundColor: '#FFDEAD',
     flex: 1,
     padding: 20,
     backgroundColor: '#fff',
   },
   postContainer: {
+    
     marginBottom: 20,
   },
   postTitle: {
@@ -344,8 +408,30 @@ const styles = StyleSheet.create({
     color: '#999',
   },
   commentContent: {
-    fontSize: 14,
-    color: '#666',
+    fontSize: 17,
+    color: '#000',
     lineHeight: 20,
   },
+  ans_com: {
+    marginTop: 20
+  },
+  input_ans: {
+    width: 300,
+    height: 40,
+    borderRadius: 5,
+    paddingHorizontal: 15,
+    marginBottom: 20,
+    backgroundColor: 'white',
+    borderWidth: 1,
+    borderColor: '#ddd',
+  },
+  btn_text_ans: {
+    width: '50%',
+    height: 40,
+    borderRadius: 5,
+    backgroundColor: '#F4A460',
+    justifyContent: 'center',
+    alignItems: 'center'
+  }
+   
 });

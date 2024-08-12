@@ -6,6 +6,7 @@ export const fetchCommentsList = createAsyncThunk('post/fetchComment', async (pa
         return data;
 })
 
+
 export const fetchDeleteCommentsList = createAsyncThunk('post/fetchDeleteComment', async (params) => {  
     await axios.delete(`/comment/${params}`)
 
@@ -45,3 +46,5 @@ export const selectIsComment = (state) => state.comment;
 
 
 export const  CommentReduser = postSlice.reducer;
+
+

@@ -14,6 +14,8 @@ import * as CommentControll from './controller/CommentControll.js'
 import nodemailer from 'nodemailer';
 import multer from 'multer'
 
+//mongodb+srv://vladmorozov2020:Nevskifront208@moroz.gjylj0v.mongodb.net/blog?retryWrites=true&w=majority&appName=Moroz
+
 mongoose
     .connect('mongodb+srv://vladmorozov2020:Nevskifront208@moroz.gjylj0v.mongodb.net/blog?retryWrites=true&w=majority&appName=Moroz')
     .then(() =>{console.log("DB OK")})
@@ -46,6 +48,10 @@ app.post('/upload',checkAuth, upload.single('image'), (req, res) => {
         url: `/uploads/${req.file.originalname}`
     })
 })
+app.get('/image/:filename', (req, res) => {
+    const { filename } = req.params;
+    res.sendFile(path.join(__dirname, 'uploads', filename));
+});
 
 app.get('/posts', PostControll.getAll);
 app.get('/posts/:id', PostControll.getOne);
@@ -54,10 +60,16 @@ app.delete('/posts/:id',checkAuth , PostControll.remove);
 app.put('/posts/:id',checkAuth ,  PostControll.update);
 app.post('/posts/tag', PostControll.getPosts);
 
+app.put('/like_plus/:id',checkAuth ,  PostControll.like_plus);
+app.put('/like_minus/:id',checkAuth ,  PostControll.like_minus);
+
 
 app.post('/comment',checkAuth , CommentControll.create);
 app.get('/comment/:post_id', CommentControll.getComments);
 app.delete('/comment/:post_id', CommentControll.remove);
+
+app.post('/comment_ans',checkAuth , CommentControll.create_ans_com);
+app.get('/comment_ans/:post_id', CommentControll.getCommentsAns);
 
 const PORT = 3030;
 

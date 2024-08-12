@@ -25,7 +25,7 @@ export default function Thanks_post(){
       <View>
         <Text> Спасибо за пост!</Text>
        <TouchableOpacity onPress={() => GoHome()}  style={styles.button}>
-       <View>
+       <View style={styles.btn_text_vern}>
            <Text style={styles.btn_text}>Вернуться на форум</Text>
        </View>
    </TouchableOpacity>
@@ -33,4 +33,13 @@ export default function Thanks_post(){
     )
   }
 
-const styles = StyleSheet.create({})
+const styles = StyleSheet.create({
+  btn_text_vern: {
+    width: 300,
+    height: 100,
+    backgroundColor: '#ff1'
+  },
+  btn_text: {
+    
+  }
+})

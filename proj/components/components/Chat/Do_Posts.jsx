@@ -53,7 +53,7 @@ export default function Do_Posts() {
           'Content-Type': 'multipart/form-data',
         },
       });
-      console.log(`http://192.168.3.8:3030${data.url}`);
+      console.log(`http://192.168.0.106:3030${data.url}`);
       setImage(data.url);
     } catch (error) {
       console.error(error);
@@ -102,7 +102,7 @@ export default function Do_Posts() {
           <Text>Загрузить изображение для поста...</Text>
         </View>
       </TouchableOpacity>
-      {image && <Image source={{uri: `http://192.168.3.8:3030${image}`} } style={{ width: 300, height: 200 }} />}
+      {image && <Image source={{uri: `http://192.168.0.106:3030${image}`} } style={{ width: 300, height: 200 }} />}
       <Text>Тема поста:</Text>
       <Picker
         selectedValue={tags}

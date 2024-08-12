@@ -13,6 +13,7 @@ export const getAll = async (req, res) => {
         console.log(err)
    }
 }
+
 export const getOne = async (req, res) => {
     try {
         const postId = req.params.id;
@@ -68,6 +69,38 @@ export const remove = async (req, res) => {
         });
         console.log(err)
    }
+}
+export const like_plus = async (req, res) => {
+    try {
+        const postId = req.params.id;
+        const post = await PostModel.updateOne( {
+            _id: postId
+        },{$inc: {like: 1}})
+        res.json({
+            sucses: true
+        })
+      }  catch (err){
+            res.status(500).json({
+                message: 'неудалось обнвить статью'
+            });
+            console.log(err)
+       }
+}
+export const like_minus = async (req, res) => {
+    try {
+        const postId = req.params.id;
+        const post = await PostModel.updateOne( {
+            _id: postId
+        },{$inc: {like: -1}})
+        res.json({
+            sucses: true
+        })
+      }  catch (err){
+            res.status(500).json({
+                message: 'неудалось обнвить статью'
+            });
+            console.log(err)
+       }
 }
 export const update = async (req, res) => {
     try {

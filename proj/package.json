@@ -22,6 +22,7 @@
     "axios": "^1.7.2",
     "emoji-mart": "^5.6.0",
     "expo": "^51.0.20",
+    "expo-image-picker": "~15.0.7",
     "expo-status-bar": "~1.12.1",
     "nanoid": "^5.0.7",
     "react": "18.2.0",
@@ -30,6 +31,8 @@
     "react-native-bouncy-checkbox": "^4.0.1",
     "react-native-document-picker": "^9.3.0",
     "react-native-elements": "^3.4.3",
+    "react-native-fetch-blob": "^0.10.8",
+    "react-native-fs": "^2.20.0",
     "react-native-gesture-handler": "^2.16.1",
     "react-native-reanimated": "^3.10.1",
     "react-native-swipe-gestures": "^1.0.5",
@@ -37,8 +40,8 @@
     "react-native-voice": "^0.3.0",
     "react-redux": "^9.1.2",
     "react-timeago": "^7.2.0",
-    "socket.io-client": "^4.7.5",
-    "expo-image-picker": "~15.0.7"
+    "rn-fetch-blob": "^0.12.0",
+    "socket.io-client": "^4.7.5"
   },
   "devDependencies": {
     "@babel/core": "^7.20.0"
