@@ -11,6 +11,7 @@ import checkAuth from './utils/checkAuth.js'
 import * as UserControll from './controller/UserControll.js'
 import * as PostControll from './controller/PostControll.js'
 import * as CommentControll from './controller/CommentControll.js'
+import * as NewsControll from './controller/NewsControll.js'
 import nodemailer from 'nodemailer';
 import multer from 'multer'
 
@@ -59,6 +60,12 @@ app.post('/posts',checkAuth ,postCreateValidation, PostControll.create);
 app.delete('/posts/:id',checkAuth , PostControll.remove);
 app.put('/posts/:id',checkAuth ,  PostControll.update);
 app.post('/posts/tag', PostControll.getPosts);
+
+app.get('/news', NewsControll.getAll);
+app.get('/news/:id', NewsControll.getOne);
+app.post('/news',checkAuth ,postCreateValidation, NewsControll.create);
+app.delete('/news/:id',checkAuth , NewsControll.remove);
+app.put('/news/:id',checkAuth ,  NewsControll.update);
 
 app.put('/like_plus/:id',checkAuth ,  PostControll.like_plus);
 app.put('/like_minus/:id',checkAuth ,  PostControll.like_minus);

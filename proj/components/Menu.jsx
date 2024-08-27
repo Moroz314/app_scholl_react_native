@@ -7,7 +7,7 @@ import Forum from './components/Chat/Forum';
 import About from './components/about/About';
 import { useEffect, useState } from 'react';
 import { useDispatch , useSelector} from 'react-redux';
-import { fetchAuthMe , selectIsAuth} from '../slices/auth';
+import { fetchAuthMe , selectIsAuth, selectIsData} from '../slices/auth';
 import Profil from './components/User/Profil';
 import { fetchUsers } from '../slices/users';
 import { useNavigation } from '@react-navigation/native';
@@ -15,15 +15,23 @@ import PlusPost from 'react-native-vector-icons/AntDesign';
 import { fetchPosts } from '../slices/post';
 import Do_Posts from './components/Chat/Do_Posts';
 import Glav_Forums from './components/Chat/Glav_Forums';
+import Glav_News from './components/News/Glav_News';
 
 
 
 const Drawer = createDrawerNavigator();
 
 export default function Menu() {
-      const isAuth = useSelector(selectIsAuth)
+    const isAuth = useSelector(selectIsAuth)
+
+    const data = useSelector(selectIsData)
+    const adm = '66ce3b1e2690f3f97ad47dcf'
+    const [me, setMe] = useState(false)
+
+ 
 
     let [users, setUsers] = useState(false)
+    let [news, setNews] = useState(false)
     const navigatioin = useNavigation()
     function goUse() {
         setUsers(users = !users)
@@ -34,6 +42,17 @@ export default function Menu() {
            navigatioin.navigate("Форум")
         }
     }
+
+    function goUseNews() {
+        setNews(news = !news)
+        if(news == true){
+           navigatioin.navigate("Создание поста новостей")
+        }
+        if(news == false){
+           navigatioin.navigate("Новости")
+        }
+    }
+    
     
   
     const dispath = useDispatch()
@@ -63,22 +82,38 @@ export default function Menu() {
               <Drawer.Screen
                 name="Профиль"
                 component={Profil}
-                options={{ drawerLabel: 'Профиль' }}
+                options={{
+                    drawerLabel: 'Профиль' ,headerStyle: {
+                        backgroundColor: '#000'
+                      } ,headerTintColor: '#fff'}}
             />
              <Drawer.Screen
                 name="Информация"
                 component={About}
-                options={{ drawerLabel: 'Информация' }}
+                options={{ drawerLabel: 'Информация',headerStyle: {
+                    backgroundColor: '#000'
+                  } ,headerTintColor: '#fff' }}
             />
             <Drawer.Screen
-                name="Новости"
-                component={News}
-                options={{ drawerLabel: 'Новости' }}
+                name="Новости 587"
+                component={Glav_News}
+                options={{ drawerLabel: 'Новости 587',headerStyle: {
+                    backgroundColor: '#000'
+                  } ,headerTintColor: '#fff',  headerRight: () => (
+                    <View>
+                       {isAuth ? <TouchableOpacity style={styles.btn_new_post} onPress={() =>goUseNews()} >
+                        <View >
+                            <Text><PlusPost style={styles.plus} name={'pluscircleo'}/></Text>
+                        </View>
+                    </TouchableOpacity> : <View></View>}
+                    </View>  )}}
             />
              <Drawer.Screen
                 name="Форум 587"
                 component={Glav_Forums}
-                options={{ drawerLabel: 'Форум 587',  headerRight: () => (
+                options={{ drawerLabel: 'Форум 587',headerStyle: {
+                    backgroundColor: '#000'
+                  } ,headerTintColor: '#fff',   headerRight: () => (
                 <View>
                    {isAuth ? <TouchableOpacity style={styles.btn_new_post} onPress={() =>goUse()} >
                     <View >
@@ -87,7 +122,8 @@ export default function Menu() {
                 </TouchableOpacity> : <View></View>}
                 </View>
                 
-                )}}
+                )
+            }}
                 
             />
         </Drawer.Navigator>
@@ -104,6 +140,6 @@ const styles = StyleSheet.create({
     },
     plus:{
         fontSize: 25,
-
+color: '#fff'
     }
 })

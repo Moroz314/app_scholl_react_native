@@ -130,6 +130,7 @@ export const update = async (req, res) => {
 export const getPosts = async (req, res) => {
     try {
         const tag = [
+            req.body.drugoe,
             req.body.technology,
             req.body.izo,
             req.body.music,

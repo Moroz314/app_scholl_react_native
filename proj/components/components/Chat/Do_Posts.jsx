@@ -102,7 +102,7 @@ export default function Do_Posts() {
           <Text>Загрузить изображение для поста...</Text>
         </View>
       </TouchableOpacity>
-      {image && <Image source={{uri: `http://192.168.0.106:3030${image}`} } style={{ width: 300, height: 200 }} />}
+      {image && <Image source={{uri: `http://192.168.0.100:3030${image}`} } style={{ width: 300, height: 200 }} />}
       <Text>Тема поста:</Text>
       <Picker
         selectedValue={tags}
@@ -124,6 +124,7 @@ export default function Do_Posts() {
         <Picker.Item label="музыка" value="музыка" />
         <Picker.Item label="ИЗО" value="ИЗО" />
         <Picker.Item label="технология(черчение)" value="технология(черчение)" />
+        <Picker.Item label="другое" value="другое" />
       </Picker>
       <TouchableOpacity onPress={DoPosts} style={styles.button}>
         <View>

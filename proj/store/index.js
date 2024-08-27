@@ -6,6 +6,8 @@ import { PostReduser } from "../slices/post_list";
 import { CommentReduser } from "../slices/comment";
 import { CommentCreaReduser } from "../slices/creat_comment";
 import { CommentAnsReduser } from "../slices/comment_ans";
+import { NewsReduser } from "../slices/news";
+import { NewReduser } from "../slices/news_list.js";
 
 export default configureStore({
     reducer: {
@@ -15,6 +17,9 @@ export default configureStore({
         post: PostReduser,
         comment: CommentReduser,
         creatCom: CommentCreaReduser,
-        comment_ans: CommentAnsReduser
+        comment_ans: CommentAnsReduser,
+        new: NewReduser,
+        news: NewsReduser
+        
     }
 });

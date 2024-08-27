@@ -1,6 +1,6 @@
 import { StatusBar } from 'expo-status-bar';
 import React, {useEffect, useState} from 'react';
-import { StyleSheet, Text, View , TextInput, Button, TouchableOpacity,ScrollView,Image} from 'react-native';
+import { StyleSheet, Text, View , TextInput, Button, TouchableOpacity,ScrollView,Image, Alert} from 'react-native';
 import { useDispatch, useSelector } from 'react-redux';
 import { selectIsAuth } from '../../../slices/auth';
 import { createDrawerNavigator } from '@react-navigation/drawer';
@@ -75,45 +75,46 @@ useEffect(() => {
   }
   
   const mappedList = PostStatus ? (
-
-    <View key={1} style={styles.cart_forum}>
-      <Text style={styles.title}></Text>
-      <Text style={styles.text}></Text>
-      <Text>Тема: </Text>
-      <Text>Автор вопроса: </Text>
+    <View><View>
+    <View key={1} style={styles.post}>
+      <Text style={styles.title}>Загрузка</Text>
+      <Text style={styles.text}>Загрузка</Text>
+      <Text>Тема: Загрузка </Text>
+      <Text>Автор вопроса: Загрузка</Text>
     </View>
+     <View key={2} style={styles.post}>
+     <Text style={styles.title}>Загрузка</Text>
+     <Text style={styles.text}>Загрузка</Text>
+     <Text>Тема: Загрузка</Text>
+     <Text>Автор вопроса: Загрузка</Text>
+   </View>
+   </View>
+    <View>
+    <View key={1} style={styles.post}>
+      <Text style={styles.title}>Загрузка</Text>
+      <Text style={styles.text}>Загрузка</Text>
+      <Text>Тема: Загрузка</Text>
+      <Text>Автор вопроса: Загрузка</Text>
+    </View>
+     <View key={2} style={styles.post}>
+     <Text style={styles.title}>Загрузка</Text>
+     <Text style={styles.text}>Загрузка</Text>
+     <Text>Тема: Загрузка</Text>
+     <Text>Автор вопроса: Загрузка</Text>
+   </View>
+   </View></View>
 
   ) : (
     filteredPosts.map((post, index) => (
 
       <TouchableOpacity key={index} onPress={() => list_post(post)}>
       <View style={styles.post}>
-      {post.image && <Image style={styles.image} source={{uri: `http://192.168.0.106:3030${post.image}`}} />}
+      {post.image ? <Image style={styles.image} source={{uri: `http://192.168.0.100:3030${post.image}`}} /> : <Text>awefwa</Text>}
         <Text style={styles.title}>{post.title}</Text>
         <Text style={styles.tags}>Тема: {post.tags}</Text>
         <Text style={styles.author}>Автор вопроса: {post.user.fullname} {post.user.surname} {post.user.class}</Text>
         
-      <TouchableOpacity style={styles.like_btn} key={index} onPress={() => {
-          let like = false
-        
-
-        async function PostLike() {
-          setLike(!like)
-
-          if(like == true){
-            await dispath(fetchPostsPlusLike(post._id));
-            getPosts()
-          } else {
-            await dispath(fetchPostsMinusLike(post._id))
-            getPosts()
-          }
-        }
-
-        PostLike()
-      }}>
-        <View><LikePost style={styles.heart}  name='like1' /></View>
-        <View><Text>{post.like}</Text></View>
-      </TouchableOpacity>
+      
     
       </View>
      
@@ -169,7 +170,9 @@ useEffect(() => {
 
 const styles = StyleSheet.create({
   formContainer:{
-    backgroundColor: '#FFDEAD'
+    backgroundColor: '#000',
+     
+    height: '100%'
   },
   like_btn:{
     
@@ -187,7 +190,7 @@ const styles = StyleSheet.create({
   },
   icon: {
     fontSize: 23,
-    color: '#D2691E'
+    color: '#FFEBCD'
   },
   container: {
     flexDirection: 'row', // Горизонтальная ориентация
@@ -215,7 +218,7 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
     alignItems: 'center', // Выравнивание элементов по центру по вертикали
     height: 50,
-    backgroundColor: '#F4A460',
+    backgroundColor: '#D2691E',
     marginTop: 10,
     marginBottom: 5,
     marginHorizontal: 10,
@@ -233,7 +236,7 @@ const styles = StyleSheet.create({
     padding: 20,
   },
   post: {
-     backgroundColor: '#F4A460',
+     backgroundColor: '#D2691E',
     borderColor: '#D2691E',
     borderWidth: 1,
 
@@ -259,12 +262,12 @@ const styles = StyleSheet.create({
     marginBottom: 10,
   },
   tags: {
-    color: '#D2691E',
+    color: '#ffa500',
     fontSize: 14,
     marginBottom: 10,
   },
   author: {
-    color: '#FFEBCD',
+    color: '#ffa500',
     fontSize: 14,
     fontStyle: 'italic',
   },

@@ -25,6 +25,7 @@ export function Setting_Forum () {
   const [music, setMusic] = useState('музыка')
   const [izo, setIzo] = useState('ИЗО')
   const [technology, setTechn] = useState('технология(черчение)')
+  const [drugoe, setDrug] = useState('другое')
 
 
   const dispath = useDispatch()
@@ -47,6 +48,7 @@ export function Setting_Forum () {
     setMusic(prevText => prevText === "музыка" ? "" : "музыка")
     setIzo(prevText => prevText === "ИЗО" ? "" : "ИЗО")
     setTechn(prevText => prevText === "технология(черчение)" ? "" : "технология(черчение)")
+    setDrug(prevText => prevText === "другое" ? "" : "другое")
   }
   async function getPosts() {
     const less = await AsyncStorage.getItem('less')
@@ -58,6 +60,7 @@ export function Setting_Forum () {
 
   const GoHome = async ()  => {
     const less = {
+      drugoe: drugoe,
       technology: technology,
       izo: izo,
        music: music,
@@ -188,6 +191,12 @@ export function Setting_Forum () {
         text="Технология"
         isChecked={technology}
         onPress={() => setTechn(prevText => prevText === "технология(черчение)" ? "" : "технология(черчение)")}
+       /> 
+       <BouncyCheckbox
+      style={styles.checkbox}
+        text="Другое"
+        isChecked={technology}
+        onPress={() => setTechn(prevText => prevText === "другое" ? "" : "другое")}
       /></ScrollView>
       </View>
     )

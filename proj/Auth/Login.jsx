@@ -31,6 +31,7 @@ export default function Login() {
       password: password
     }
     const less = {
+      drugoe: "другое",
       technology: "технология(черчение)",
       izo: "ИЗО",
        music: "музыка",

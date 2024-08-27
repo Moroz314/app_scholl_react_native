@@ -34,6 +34,7 @@ export default function List_Post() {
   const post = useSelector(selectIsPost)
 
   const  items = post.items || []
+  console.log(items)
 
   
   useEffect(() => {
@@ -211,12 +212,12 @@ async function createCommentAns(com) {
           </View>
         </View>
         </Modal>
-            {me && <TouchableOpacity onPress={() => setSetting(true)}>
+        {me &&<TouchableOpacity onPress={() => setSetting(true)}>
             <SettingPost style={styles.btn_post} name={'settings'} /> 
     </TouchableOpacity>}
       <View style={styles.postContainer}>
         <Text style={styles.postTitle}>{items.title}</Text>
-        {items.image && <Image source={{uri: `http://192.168.0.106:3030${items.image}`}} style={{ width: '100%', height: 200 }}/>}
+        {items.image && <Image source={{uri: `http://192.168.0.100:3030${items.image}`}} style={{ width: '100%', height: 200 }}/>}
     
         <Text style={styles.postContent}>{items.text}</Text>
         <Text style={styles.postContent}>тема: {items.tags}</Text>
@@ -253,6 +254,9 @@ async function createCommentAns(com) {
   }
 
 const styles = StyleSheet.create({
+  postContainer:{
+    backgroundColor: '#000'
+  },
   comm_ans:{
 
   },
@@ -334,7 +338,7 @@ const styles = StyleSheet.create({
     backgroundColor: '#FFDEAD',
     flex: 1,
     padding: 20,
-    backgroundColor: '#fff',
+    backgroundColor: '#000',
   },
   postContainer: {
     
@@ -343,18 +347,18 @@ const styles = StyleSheet.create({
   postTitle: {
     fontSize: 24,
     fontWeight: 'bold',
-    color: '#333',
+    color: '#D2691E',
     marginBottom: 10,
   },
   postTitleCom: {
     fontSize: 22,
     fontWeight: 'bold',
-    color: '#333',
+    color: '#D2691E',
     marginBottom: 10,
   },
   postContent: {
     fontSize: 16,
-    color: '#666',
+    color: '#D2691E',
     lineHeight: 24,
     marginBottom: 20,
   },
@@ -372,14 +376,15 @@ const styles = StyleSheet.create({
   username: {
     fontSize: 18,
     fontWeight: 'bold',
-    color: '#333',
+    color: '#D2691E',
   },
   userJoinedDate: {
     fontSize: 14,
-    color: '#999',
+    color: '#D2691E',
   },
   commentsContainer: {
     marginTop: 20,
+    marginBottom: 20
   },
   comment: {
     marginBottom: 15,
